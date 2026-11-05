@@ -1,0 +1,11 @@
+service:
+  type: NodePort
+ports:
+  web:
+    nodePort: 30081
+nodeSelector:
+  role: infra
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule

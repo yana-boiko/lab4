@@ -1,0 +1,16 @@
+.git
+.gitignore
+.idea
+.venv
+__pycache__
+*.pyc
+.env
+.env.*
+Dockerfile
+.dockerignore
+docker-compose.yml
+README.md
+*.md
+*.docx
+results
+loadgen
