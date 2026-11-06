@@ -1,8 +1,10 @@
 """CRUD-сервіс для результатів лабораторних аналізів"""
 import os
 from contextlib import asynccontextmanager
-from datetime import date
-from typing import Annotated
+import random
+import threading
+from datetime import date, datetime
+from typing import Annotated, Literal
 from decimal import Decimal
 
 from fastapi import FastAPI, Path, Query, Request, Response
@@ -34,10 +36,32 @@ DB_POOL_SIZE = int(os.environ.get("DB_POOL_SIZE", "15"))
 pool = ConnectionPool(CONNINFO, min_size=1, max_size=DB_POOL_SIZE, open=False, kwargs={"row_factory": dict_row})
 
 
+stop_gauges = threading.Event()
+
+
+def update_task_gauges():
+    while True:
+        try:
+            with pool.connection(timeout=2) as conn:
+                rows = conn.execute(
+                    "SELECT status, count(*) AS n FROM tasks "
+                    "WHERE status IN ('queued', 'running') GROUP BY status"
+                ).fetchall()
+            counts = {r["status"]: r["n"] for r in rows}
+            TASKS_QUEUED.set(counts.get("queued", 0))
+            TASKS_RUNNING.set(counts.get("running", 0))
+        except Exception:
+            pass
+        if stop_gauges.wait(5):
+            break
+
+
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     pool.open(wait=False)
+    threading.Thread(target=update_task_gauges, daemon=True).start()
     yield
+    stop_gauges.set()
     pool.close()
 
 
@@ -52,6 +76,8 @@ DURATION = Histogram(
     buckets=[0.001, 0.002, 0.004, 0.008, 0.016, 0.032, 0.064, 0.128, 0.256, 0.512, 1.024],
 )
 IN_PROGRESS = Gauge("http_requests_in_progress", "Запитів в обробці")
+TASKS_QUEUED = Gauge("tasks_queued", "Задач у статусі queued")
+TASKS_RUNNING = Gauge("tasks_running", "Задач у статусі running")
 
 
 @app.middleware("http")
@@ -223,3 +249,75 @@ def healthz():
         return {"status": "ok", "db": "up"}
     except Exception:
         return JSONResponse(status_code=503, content={"status": "unavailable", "db": "down"})
+
+TASK_COLUMNS = ("id, record_id, status, seed, attempts, max_attempts, token, "
+                "lease_until, worker_id, created_at, started_at, finished_at")
+
+
+class TaskOut(BaseModel):
+    id: int
+    record_id: int
+    status: str
+    seed: int
+    attempts: int
+    max_attempts: int
+    token: int
+    lease_until: datetime | None
+    worker_id: str | None
+    created_at: datetime
+    started_at: datetime | None
+    finished_at: datetime | None
+
+
+class TaskDetail(TaskOut):
+    result: dict | None
+
+
+class TaskList(BaseModel):
+    items: list[TaskOut]
+    total: int
+    limit: int
+    offset: int
+
+
+@app.post("/lab-results/{item_id}/tasks", status_code=202, response_model=TaskOut)
+def create_task(item_id: ItemId):
+    seed = random.randint(1, 2**31 - 1)
+    with pool.connection() as conn:
+        row = conn.execute(
+            f"INSERT INTO tasks (record_id, seed) SELECT id, %s FROM lab_results WHERE id = %s "
+            f"RETURNING {TASK_COLUMNS}",
+            (seed, item_id),
+        ).fetchone()
+    return row if row else not_found(item_id)
+
+
+@app.get("/tasks/{task_id}", response_model=TaskDetail)
+def get_task(task_id: ItemId):
+    with pool.connection() as conn:
+        row = conn.execute(
+            "SELECT t.*, r.result FROM tasks t LEFT JOIN task_results r ON r.task_id = t.id WHERE t.id = %s",
+            (task_id,),
+        ).fetchone()
+    if not row:
+        return JSONResponse(status_code=404, content={"detail": f"task {task_id} not found"})
+    return row
+
+
+@app.get("/tasks", response_model=TaskList)
+def list_tasks(
+    limit: Annotated[int, Query(ge=1, le=MAX_LIMIT)] = DEFAULT_LIMIT,
+    offset: Annotated[int, Query(ge=0)] = 0,
+    status: Annotated[Literal["queued", "running", "done", "failed"] | None, Query()] = None,
+):
+    where, params = "", {"limit": limit, "offset": offset}
+    if status is not None:
+        where = "WHERE status = %(status)s"
+        params["status"] = status
+    with pool.connection() as conn:
+        total = conn.execute(f"SELECT count(*) AS n FROM tasks {where}", params).fetchone()["n"]
+        items = conn.execute(
+            f"SELECT {TASK_COLUMNS} FROM tasks {where} ORDER BY id LIMIT %(limit)s OFFSET %(offset)s",
+            params,
+        ).fetchall()
+    return {"items": items, "total": total, "limit": limit, "offset": offset}

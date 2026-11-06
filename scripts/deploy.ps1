@@ -14,8 +14,12 @@ kind load docker-image lab3-web:1 --name lab3
 kubectl create secret generic db-secret --from-env-file=.env --dry-run=client -o yaml | kubectl apply -f -
 kubectl create configmap db-schema --from-file=db/schema.sql --dry-run=client -o yaml | kubectl apply -f -
 
+kubectl delete job db-migrate --ignore-not-found
+
 # Маніфести
 kubectl apply -f k8s/
+
+kubectl rollout restart deployment/web
 
 # Моніторинг: metrics-server, Prometheus-стек, postgres-exporter
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts

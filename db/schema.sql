@@ -11,3 +11,29 @@ CREATE TABLE IF NOT EXISTS lab_results (
 );
 
 CREATE INDEX IF NOT EXISTS idx_lab_results_test_code ON lab_results (test_code);
+
+CREATE TABLE IF NOT EXISTS tasks (
+    id           BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    record_id    BIGINT      NOT NULL REFERENCES lab_results (id) ON DELETE CASCADE,
+    status       VARCHAR(10) NOT NULL DEFAULT 'queued'
+                 CHECK (status IN ('queued', 'running', 'done', 'failed')),
+    seed         BIGINT      NOT NULL,
+    attempts     INT         NOT NULL DEFAULT 0,
+    max_attempts INT         NOT NULL DEFAULT 3,
+    token        BIGINT      NOT NULL DEFAULT 0,
+    lease_until  TIMESTAMPTZ,
+    worker_id    VARCHAR(64),
+    created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+    started_at   TIMESTAMPTZ,
+    finished_at  TIMESTAMPTZ
+);
+
+CREATE INDEX IF NOT EXISTS idx_tasks_status_created ON tasks (status, created_at);
+
+CREATE TABLE IF NOT EXISTS task_results (
+    task_id    BIGINT      PRIMARY KEY REFERENCES tasks (id) ON DELETE CASCADE,
+    token      BIGINT      NOT NULL,
+    worker_id  VARCHAR(64) NOT NULL,
+    result     JSONB       NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
