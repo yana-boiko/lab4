@@ -9,6 +9,8 @@ kubectl label node lab3-control-plane role=infra --overwrite
 # Збірка образу сервісу і завантаження в кластер
 docker build -t lab3-web:1 .
 kind load docker-image lab3-web:1 --name lab3
+docker build -f worker/Dockerfile -t lab4-worker:1 .
+kind load docker-image lab4-worker:1 --name lab3
 
 # Secret з паролем із .env і ConfigMap зі схемою
 kubectl create secret generic db-secret --from-env-file=.env --dry-run=client -o yaml | kubectl apply -f -
@@ -20,6 +22,7 @@ kubectl delete job db-migrate --ignore-not-found
 kubectl apply -f k8s/
 
 kubectl rollout restart deployment/web
+kubectl rollout restart deployment/worker
 
 # Моніторинг: metrics-server, Prometheus-стек, postgres-exporter
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts

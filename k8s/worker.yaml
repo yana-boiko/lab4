@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: worker-config
+data:
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  WEB_URL: http://web:8000
+  LEASE_SECONDS: "10"
+  POLL_INTERVAL_MS: "100"
+  FAIL_RATE: "0"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+spec:
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: worker
+          image: lab4-worker:1
+          ports:
+            - name: metrics
+              containerPort: 9100
+          envFrom:
+            - configMapRef:
+                name: worker-config
+          env:
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef: {name: db-secret, key: DB_NAME}
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef: {name: db-secret, key: DB_USER}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef: {name: db-secret, key: DB_PASSWORD}
+            - name: WORKER_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          resources:
+            requests:
+              cpu: 250m
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: worker
+spec:
+  selector:
+    matchLabels:
+      app: worker
+  podMetricsEndpoints:
+    - port: metrics
+      path: /metrics
+      interval: 5s
