@@ -1,0 +1,13 @@
+{
+ "mode": "overload",
+ "rate": 60.45,
+ "X_R": 46.5,
+ "n": 7253,
+ "status": "done=7253",
+ "attempts_gt1": 0,
+ "lam": 61.501944784304804,
+ "throughput": 44.759982786697286,
+ "queue_end": 1952,
+ "Wq_first100": 0.95183635,
+ "Wq_last100": 42.16958802
+}
