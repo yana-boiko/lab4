@@ -55,11 +55,33 @@ def update_task_gauges():
         if stop_gauges.wait(5):
             break
 
+REAP_SQL = """
+UPDATE tasks
+SET status = CASE WHEN attempts >= max_attempts THEN 'failed' ELSE 'queued' END,
+    worker_id = NULL,
+    finished_at = CASE WHEN attempts >= max_attempts THEN now() ELSE finished_at END
+WHERE status = 'running' AND lease_until < now()
+RETURNING id, status, attempts
+"""
+
+
+def reap_expired_leases():
+    while True:
+        try:
+            with pool.connection(timeout=2) as conn:
+                rows = conn.execute(REAP_SQL).fetchall()
+            for r in rows:
+                print(f"reaper: задача {r['id']} (attempts={r['attempts']}) -> {r['status']}", flush=True)
+        except Exception:
+            pass
+        if stop_gauges.wait(5):
+            break
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     pool.open(wait=False)
     threading.Thread(target=update_task_gauges, daemon=True).start()
+    threading.Thread(target=reap_expired_leases, daemon=True).start()
     yield
     stop_gauges.set()
     pool.close()

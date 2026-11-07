@@ -2,6 +2,7 @@
 import math
 import os
 import random
+import threading
 import time
 import urllib.request
 
@@ -18,25 +19,29 @@ POLL = float(os.environ["POLL_INTERVAL_MS"]) / 1000
 FAIL_RATE = float(os.environ.get("FAIL_RATE", "0"))
 WORKER_ID = os.environ["WORKER_ID"]
 CLAIM_MODE = os.environ.get("CLAIM_MODE", "skip_locked")
+HEARTBEAT = LEASE / 3
 
 S = 256
 Q_LO, Q_HI = 0.02, 0.98
 
 TASKS = Counter("worker_tasks_total", "Задачі за результатом", ["result"])
 CLAIMS = Counter("worker_claims_total", "Спроби захоплення за результатом", ["result"])
+HEARTBEATS = Counter("worker_heartbeats_total", "Heartbeat за результатом", ["result"])
 STEP = Histogram("worker_task_duration_seconds", "Тривалість кроку задачі, с", ["step"],
                  buckets=[0.001, 0.002, 0.004, 0.008, 0.016, 0.032, 0.064, 0.128, 0.256, 0.512, 1.024, 2.048])
 IN_FLIGHT = Gauge("worker_tasks_in_flight", "Задач в обробці")
 
 CLAIM = """
-UPDATE tasks SET status = 'running', worker_id = %s, token = token + 1,
-       lease_until = now() + make_interval(secs => %s), attempts = attempts + 1, started_at = now()
+UPDATE tasks SET status = 'running', worker_id = %s,
+       token = token + 1, attempts = attempts + 1,
+       lease_until = now() + make_interval(secs => %s),
+       started_at = now()
 WHERE id = (SELECT id FROM tasks WHERE status = 'queued'
-            ORDER BY created_at LIMIT 1 FOR UPDATE SKIP LOCKED)
+            ORDER BY created_at LIMIT 1
+            FOR UPDATE SKIP LOCKED)
 RETURNING id, record_id, seed, token
 """
 CLAIM_FU = CLAIM.replace("FOR UPDATE SKIP LOCKED", "FOR UPDATE")
-
 NAIVE_SELECT = "SELECT id FROM tasks WHERE status = 'queued' ORDER BY created_at LIMIT 1"
 NAIVE_UPDATE = """
 UPDATE tasks SET status = 'running', worker_id = %s,
@@ -46,6 +51,38 @@ UPDATE tasks SET status = 'running', worker_id = %s,
 WHERE id = %s
 RETURNING id, record_id, seed, token
 """
+HEARTBEAT_SQL = ("UPDATE tasks SET lease_until = now() + make_interval(secs => %s) "
+                 "WHERE id = %s AND token = %s")
+
+current = None
+cur_lock = threading.Lock()
+
+
+def heartbeat_loop():
+    conn, warned = None, None
+    while True:
+        time.sleep(HEARTBEAT)
+        with cur_lock:
+            snap = current
+        if snap is None:
+            continue
+        try:
+            if conn is None or conn.closed:
+                conn = psycopg.connect(**DB, autocommit=True)
+            n = conn.execute(HEARTBEAT_SQL, (LEASE, snap[0], snap[1])).rowcount
+        except Exception as e:
+            print(f"{WORKER_ID}: heartbeat помилка: {e}", flush=True)
+            conn = None
+            continue
+        if n:
+            HEARTBEATS.labels("ok").inc()
+        else:
+            HEARTBEATS.labels("lost").inc()
+            if warned != snap:
+                warned = snap
+                print(f"{WORKER_ID}: heartbeat задачі {snap[0]}, токен {snap[1]}: оновлено 0 рядків "
+                      f"(задача вже не належить цьому воркеру)", flush=True)
+
 
 def process(seed):
     n = S * S
@@ -80,11 +117,14 @@ def process(seed):
     kept = n - removed
     mean = total / kept
     std = math.sqrt(max(total2 / kept - mean * mean, 0))
-    return {"p_lo": lo, "p_hi": hi, "removed": removed, "mean": round(mean, 4), "std": round(std, 4)}
+    return {"p_lo": lo, "p_hi": hi, "removed": removed,
+            "mean": round(mean, 4), "std": round(std, 4)}
 
 
 start_http_server(9100)
-print(f"{WORKER_ID}: старт, L={LEASE:g} с, T_poll={POLL * 1000:g} мс, FAIL_RATE={FAIL_RATE}", flush=True)
+threading.Thread(target=heartbeat_loop, daemon=True).start()
+print(f"{WORKER_ID}: старт, L={LEASE:g} с, heartbeat кожні {HEARTBEAT:.2f} с, "
+      f"T_poll={POLL * 1000:g} мс, FAIL_RATE={FAIL_RATE}, захоплення: {CLAIM_MODE}", flush=True)
 
 while True:
     try:
@@ -105,7 +145,9 @@ while True:
                     time.sleep(POLL)
                     continue
                 CLAIMS.labels("task").inc()
-                print(f"CLAIM task={task['id']} worker={WORKER_ID}", flush=True)
+                print(f"CLAIM task={task['id']} worker={WORKER_ID} token={task['token']}", flush=True)
+                with cur_lock:
+                    current = (task["id"], task["token"])
                 IN_FLIGHT.inc()
                 try:
                     t = time.perf_counter()
@@ -121,30 +163,24 @@ while True:
                         os._exit(1)
 
                     t = time.perf_counter()
-                    if CLAIM_MODE == "naive":
-                        conn.execute(
-                            "INSERT INTO task_results (task_id, token, worker_id, result) VALUES (%s, %s, %s, %s)",
-                            (task["id"], task["token"], WORKER_ID, Jsonb(result)))
-                        conn.execute("UPDATE tasks SET status = 'done', finished_at = now() WHERE id = %s",
-                                     (task["id"],))
-                        done = 1
-                    else:
-                        with conn.transaction():
+                    with conn.transaction():
+                        done = conn.execute(
+                            "UPDATE tasks SET status = 'done', finished_at = now() "
+                            "WHERE id = %s AND token = %s",
+                            (task["id"], task["token"])).rowcount
+                        if done:
                             conn.execute(
-                                "INSERT INTO task_results (task_id, token, worker_id, result) VALUES (%s, %s, %s, %s)",
+                                "INSERT INTO task_results (task_id, token, worker_id, result) "
+                                "VALUES (%s, %s, %s, %s) ON CONFLICT (task_id) DO NOTHING",
                                 (task["id"], task["token"], WORKER_ID, Jsonb(result)))
-                            done = conn.execute(
-                                "UPDATE tasks SET status = 'done', finished_at = now() WHERE id = %s AND token = %s",
-                                (task["id"], task["token"])).rowcount
-                            if not done:
-                                raise psycopg.Rollback()
                     STEP.labels("store").observe(time.perf_counter() - t)
                     if done:
                         TASKS.labels("done").inc()
                         print(f"DONE task={task['id']} worker={WORKER_ID}", flush=True)
                     else:
                         TASKS.labels("lost").inc()
-                        print(f"{WORKER_ID}: задача {task['id']}, токен {task['token']}: оновлено 0 рядків", flush=True)
+                        print(f"{WORKER_ID}: запис результату задачі {task['id']}, токен {task['token']}: "
+                              f"оновлено 0 рядків (задача вже не належить цьому воркеру)", flush=True)
                 except psycopg.OperationalError:
                     raise
                 except Exception as e:
@@ -152,6 +188,8 @@ while True:
                     print(f"{WORKER_ID}: задача {task['id']} помилка: {e}", flush=True)
                 finally:
                     IN_FLIGHT.dec()
+                    with cur_lock:
+                        current = None
     except psycopg.OperationalError as e:
         print(f"{WORKER_ID}: втрачено зʼєднання з базою ({e}), перепідключення", flush=True)
         time.sleep(1)

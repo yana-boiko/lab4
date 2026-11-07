@@ -1,0 +1,20 @@
+{
+ "victim": "worker-7b76cf8bdc-frdwp",
+ "other": "worker-7b76cf8bdc-hnv68",
+ "method": "docker exec lab3-worker2 kill -STOP 9839 (PID процесу на вузлі)",
+ "task_id": "46",
+ "attempts_before": "1",
+ "token_before": "1",
+ "after": "done|2|2|worker-7b76cf8bdc-hnv68|2026-11-07 13:41:16.793966+00|2026-11-07 13:41:16.905366+00",
+ "result_rows": "1",
+ "result_row": "worker-7b76cf8bdc-hnv68|2",
+ "status_counts": "done=100",
+ "multi_results": "0",
+ "victim_log_zero_rows": [
+  "worker-7b76cf8bdc-frdwp: heartbeat задачі 46, токен 1: оновлено 0 рядків (задача вже не належить цьому воркеру)",
+  "worker-7b76cf8bdc-frdwp: запис результату задачі 46, токен 1: оновлено 0 рядків (задача вже не належить цьому воркеру)"
+ ],
+ "reaper_log": [
+  "reaper: задача 46 (attempts=1) -> queued"
+ ]
+}
