@@ -17,6 +17,7 @@ LEASE = float(os.environ["LEASE_SECONDS"])
 POLL = float(os.environ["POLL_INTERVAL_MS"]) / 1000
 FAIL_RATE = float(os.environ.get("FAIL_RATE", "0"))
 WORKER_ID = os.environ["WORKER_ID"]
+CLAIM_MODE = os.environ.get("CLAIM_MODE", "skip_locked")
 
 S = 256
 Q_LO, Q_HI = 0.02, 0.98
@@ -35,6 +36,15 @@ WHERE id = (SELECT id FROM tasks WHERE status = 'queued'
 RETURNING id, record_id, seed, token
 """
 
+NAIVE_SELECT = "SELECT id FROM tasks WHERE status = 'queued' ORDER BY created_at LIMIT 1"
+NAIVE_UPDATE = """
+UPDATE tasks SET status = 'running', worker_id = %s,
+       token = token + 1, attempts = attempts + 1,
+       lease_until = now() + make_interval(secs => %s),
+       started_at = now()
+WHERE id = %s
+RETURNING id, record_id, seed, token
+"""
 
 def process(seed):
     n = S * S
@@ -80,7 +90,12 @@ while True:
         with psycopg.connect(**DB, autocommit=True, row_factory=dict_row) as conn:
             while True:
                 t = time.perf_counter()
-                task = conn.execute(CLAIM, (WORKER_ID, LEASE)).fetchone()
+                if CLAIM_MODE == "naive":
+                    row = conn.execute(NAIVE_SELECT).fetchone()
+                    task = (conn.execute(NAIVE_UPDATE, (WORKER_ID, LEASE, row["id"])).fetchone()
+                            if row else None)
+                else:
+                    task = conn.execute(CLAIM, (WORKER_ID, LEASE)).fetchone()
                 STEP.labels("claim").observe(time.perf_counter() - t)
                 if task is None:
                     CLAIMS.labels("empty").inc()
@@ -102,18 +117,27 @@ while True:
                         os._exit(1)
 
                     t = time.perf_counter()
-                    with conn.transaction():
+                    if CLAIM_MODE == "naive":
                         conn.execute(
                             "INSERT INTO task_results (task_id, token, worker_id, result) VALUES (%s, %s, %s, %s)",
                             (task["id"], task["token"], WORKER_ID, Jsonb(result)))
-                        done = conn.execute(
-                            "UPDATE tasks SET status = 'done', finished_at = now() WHERE id = %s AND token = %s",
-                            (task["id"], task["token"])).rowcount
-                        if not done:
-                            raise psycopg.Rollback()
+                        conn.execute("UPDATE tasks SET status = 'done', finished_at = now() WHERE id = %s",
+                                     (task["id"],))
+                        done = 1
+                    else:
+                        with conn.transaction():
+                            conn.execute(
+                                "INSERT INTO task_results (task_id, token, worker_id, result) VALUES (%s, %s, %s, %s)",
+                                (task["id"], task["token"], WORKER_ID, Jsonb(result)))
+                            done = conn.execute(
+                                "UPDATE tasks SET status = 'done', finished_at = now() WHERE id = %s AND token = %s",
+                                (task["id"], task["token"])).rowcount
+                            if not done:
+                                raise psycopg.Rollback()
                     STEP.labels("store").observe(time.perf_counter() - t)
                     if done:
                         TASKS.labels("done").inc()
+                        print(f"DONE task={task['id']} worker={WORKER_ID}", flush=True)
                     else:
                         TASKS.labels("lost").inc()
                         print(f"{WORKER_ID}: задача {task['id']}, токен {task['token']}: оновлено 0 рядків", flush=True)
