@@ -35,6 +35,7 @@ WHERE id = (SELECT id FROM tasks WHERE status = 'queued'
             ORDER BY created_at LIMIT 1 FOR UPDATE SKIP LOCKED)
 RETURNING id, record_id, seed, token
 """
+CLAIM_FU = CLAIM.replace("FOR UPDATE SKIP LOCKED", "FOR UPDATE")
 
 NAIVE_SELECT = "SELECT id FROM tasks WHERE status = 'queued' ORDER BY created_at LIMIT 1"
 NAIVE_UPDATE = """
@@ -94,6 +95,8 @@ while True:
                     row = conn.execute(NAIVE_SELECT).fetchone()
                     task = (conn.execute(NAIVE_UPDATE, (WORKER_ID, LEASE, row["id"])).fetchone()
                             if row else None)
+                elif CLAIM_MODE == "for_update":
+                    task = conn.execute(CLAIM_FU, (WORKER_ID, LEASE)).fetchone()
                 else:
                     task = conn.execute(CLAIM, (WORKER_ID, LEASE)).fetchone()
                 STEP.labels("claim").observe(time.perf_counter() - t)
@@ -102,6 +105,7 @@ while True:
                     time.sleep(POLL)
                     continue
                 CLAIMS.labels("task").inc()
+                print(f"CLAIM task={task['id']} worker={WORKER_ID}", flush=True)
                 IN_FLIGHT.inc()
                 try:
                     t = time.perf_counter()
