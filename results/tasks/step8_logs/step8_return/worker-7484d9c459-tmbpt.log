@@ -1,0 +1,77 @@
+worker-7484d9c459-tmbpt: старт, L=10 с, heartbeat кожні 3.33 с, T_poll=100 мс, FAIL_RATE=0.0, захоплення: skip_locked, ліміт на зупинку 0.02 с
+worker-7484d9c459-tmbpt: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-tmbpt: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-tmbpt: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-tmbpt: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-tmbpt: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-tmbpt: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-tmbpt: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+CLAIM task=4 worker=worker-7484d9c459-tmbpt token=1
+DONE task=4 worker=worker-7484d9c459-tmbpt
+CLAIM task=7 worker=worker-7484d9c459-tmbpt token=1
+DONE task=7 worker=worker-7484d9c459-tmbpt
+CLAIM task=11 worker=worker-7484d9c459-tmbpt token=1
+DONE task=11 worker=worker-7484d9c459-tmbpt
+CLAIM task=15 worker=worker-7484d9c459-tmbpt token=1
+DONE task=15 worker=worker-7484d9c459-tmbpt
+CLAIM task=19 worker=worker-7484d9c459-tmbpt token=1
+DONE task=19 worker=worker-7484d9c459-tmbpt
+CLAIM task=23 worker=worker-7484d9c459-tmbpt token=1
+DONE task=23 worker=worker-7484d9c459-tmbpt
+CLAIM task=27 worker=worker-7484d9c459-tmbpt token=1
+DONE task=27 worker=worker-7484d9c459-tmbpt
+CLAIM task=31 worker=worker-7484d9c459-tmbpt token=1
+DONE task=31 worker=worker-7484d9c459-tmbpt
+CLAIM task=36 worker=worker-7484d9c459-tmbpt token=1
+DONE task=36 worker=worker-7484d9c459-tmbpt
+CLAIM task=40 worker=worker-7484d9c459-tmbpt token=1
+DONE task=40 worker=worker-7484d9c459-tmbpt
+CLAIM task=44 worker=worker-7484d9c459-tmbpt token=1
+DONE task=44 worker=worker-7484d9c459-tmbpt
+CLAIM task=48 worker=worker-7484d9c459-tmbpt token=1
+DONE task=48 worker=worker-7484d9c459-tmbpt
+CLAIM task=52 worker=worker-7484d9c459-tmbpt token=1
+DONE task=52 worker=worker-7484d9c459-tmbpt
+CLAIM task=56 worker=worker-7484d9c459-tmbpt token=1
+DONE task=56 worker=worker-7484d9c459-tmbpt
+CLAIM task=59 worker=worker-7484d9c459-tmbpt token=1
+DONE task=59 worker=worker-7484d9c459-tmbpt
+CLAIM task=64 worker=worker-7484d9c459-tmbpt token=1
+DONE task=64 worker=worker-7484d9c459-tmbpt
+CLAIM task=68 worker=worker-7484d9c459-tmbpt token=1
+DONE task=68 worker=worker-7484d9c459-tmbpt
+CLAIM task=72 worker=worker-7484d9c459-tmbpt token=1
+DONE task=72 worker=worker-7484d9c459-tmbpt
+CLAIM task=75 worker=worker-7484d9c459-tmbpt token=1
+DONE task=75 worker=worker-7484d9c459-tmbpt
+CLAIM task=79 worker=worker-7484d9c459-tmbpt token=1
+DONE task=79 worker=worker-7484d9c459-tmbpt
+CLAIM task=83 worker=worker-7484d9c459-tmbpt token=1
+DONE task=83 worker=worker-7484d9c459-tmbpt
+CLAIM task=89 worker=worker-7484d9c459-tmbpt token=1
+DONE task=89 worker=worker-7484d9c459-tmbpt
+CLAIM task=94 worker=worker-7484d9c459-tmbpt token=1
+DONE task=94 worker=worker-7484d9c459-tmbpt
+CLAIM task=98 worker=worker-7484d9c459-tmbpt token=1
+DONE task=98 worker=worker-7484d9c459-tmbpt
+CLAIM task=102 worker=worker-7484d9c459-tmbpt token=1
+DONE task=102 worker=worker-7484d9c459-tmbpt
+CLAIM task=106 worker=worker-7484d9c459-tmbpt token=1
+DONE task=106 worker=worker-7484d9c459-tmbpt
+CLAIM task=110 worker=worker-7484d9c459-tmbpt token=1
+DONE task=110 worker=worker-7484d9c459-tmbpt
+CLAIM task=113 worker=worker-7484d9c459-tmbpt token=1
+DONE task=113 worker=worker-7484d9c459-tmbpt
+CLAIM task=116 worker=worker-7484d9c459-tmbpt token=1
+DONE task=116 worker=worker-7484d9c459-tmbpt
+CLAIM task=118 worker=worker-7484d9c459-tmbpt token=1
+DONE task=118 worker=worker-7484d9c459-tmbpt
+CLAIM task=121 worker=worker-7484d9c459-tmbpt token=1
+DONE task=121 worker=worker-7484d9c459-tmbpt
+CLAIM task=124 worker=worker-7484d9c459-tmbpt token=1
+DONE task=124 worker=worker-7484d9c459-tmbpt
+CLAIM task=127 worker=worker-7484d9c459-tmbpt token=1
+DONE task=127 worker=worker-7484d9c459-tmbpt
+CLAIM task=130 worker=worker-7484d9c459-tmbpt token=1
+DONE task=130 worker=worker-7484d9c459-tmbpt
+STOP worker=worker-7484d9c459-tmbpt: SIGTERM отримано, поточну задачу завершено, вихід з кодом 0 через 0.05 с

@@ -1,0 +1,93 @@
+worker-7484d9c459-s4jlr: старт, L=10 с, heartbeat кожні 3.33 с, T_poll=100 мс, FAIL_RATE=0.0, захоплення: skip_locked, ліміт на зупинку 0.02 с
+worker-7484d9c459-s4jlr: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-s4jlr: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-s4jlr: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-s4jlr: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-s4jlr: втрачено зʼєднання з базою ([Errno -5] No address associated with hostname), перепідключення
+CLAIM task=1 worker=worker-7484d9c459-s4jlr token=1
+DONE task=1 worker=worker-7484d9c459-s4jlr
+CLAIM task=5 worker=worker-7484d9c459-s4jlr token=1
+DONE task=5 worker=worker-7484d9c459-s4jlr
+CLAIM task=8 worker=worker-7484d9c459-s4jlr token=1
+DONE task=8 worker=worker-7484d9c459-s4jlr
+CLAIM task=13 worker=worker-7484d9c459-s4jlr token=1
+DONE task=13 worker=worker-7484d9c459-s4jlr
+CLAIM task=17 worker=worker-7484d9c459-s4jlr token=1
+DONE task=17 worker=worker-7484d9c459-s4jlr
+CLAIM task=21 worker=worker-7484d9c459-s4jlr token=1
+DONE task=21 worker=worker-7484d9c459-s4jlr
+CLAIM task=25 worker=worker-7484d9c459-s4jlr token=1
+DONE task=25 worker=worker-7484d9c459-s4jlr
+CLAIM task=29 worker=worker-7484d9c459-s4jlr token=1
+DONE task=29 worker=worker-7484d9c459-s4jlr
+CLAIM task=30 worker=worker-7484d9c459-s4jlr token=1
+DONE task=30 worker=worker-7484d9c459-s4jlr
+CLAIM task=34 worker=worker-7484d9c459-s4jlr token=1
+DONE task=34 worker=worker-7484d9c459-s4jlr
+CLAIM task=38 worker=worker-7484d9c459-s4jlr token=1
+DONE task=38 worker=worker-7484d9c459-s4jlr
+CLAIM task=43 worker=worker-7484d9c459-s4jlr token=1
+DONE task=43 worker=worker-7484d9c459-s4jlr
+CLAIM task=47 worker=worker-7484d9c459-s4jlr token=1
+DONE task=47 worker=worker-7484d9c459-s4jlr
+CLAIM task=51 worker=worker-7484d9c459-s4jlr token=1
+DONE task=51 worker=worker-7484d9c459-s4jlr
+CLAIM task=55 worker=worker-7484d9c459-s4jlr token=1
+DONE task=55 worker=worker-7484d9c459-s4jlr
+CLAIM task=58 worker=worker-7484d9c459-s4jlr token=1
+DONE task=58 worker=worker-7484d9c459-s4jlr
+CLAIM task=62 worker=worker-7484d9c459-s4jlr token=1
+DONE task=62 worker=worker-7484d9c459-s4jlr
+CLAIM task=66 worker=worker-7484d9c459-s4jlr token=1
+DONE task=66 worker=worker-7484d9c459-s4jlr
+CLAIM task=70 worker=worker-7484d9c459-s4jlr token=1
+DONE task=70 worker=worker-7484d9c459-s4jlr
+CLAIM task=74 worker=worker-7484d9c459-s4jlr token=1
+DONE task=74 worker=worker-7484d9c459-s4jlr
+CLAIM task=78 worker=worker-7484d9c459-s4jlr token=1
+DONE task=78 worker=worker-7484d9c459-s4jlr
+CLAIM task=80 worker=worker-7484d9c459-s4jlr token=1
+DONE task=80 worker=worker-7484d9c459-s4jlr
+CLAIM task=85 worker=worker-7484d9c459-s4jlr token=1
+DONE task=85 worker=worker-7484d9c459-s4jlr
+CLAIM task=87 worker=worker-7484d9c459-s4jlr token=1
+DONE task=87 worker=worker-7484d9c459-s4jlr
+CLAIM task=92 worker=worker-7484d9c459-s4jlr token=1
+DONE task=92 worker=worker-7484d9c459-s4jlr
+CLAIM task=95 worker=worker-7484d9c459-s4jlr token=1
+DONE task=95 worker=worker-7484d9c459-s4jlr
+CLAIM task=100 worker=worker-7484d9c459-s4jlr token=1
+DONE task=100 worker=worker-7484d9c459-s4jlr
+CLAIM task=104 worker=worker-7484d9c459-s4jlr token=1
+DONE task=104 worker=worker-7484d9c459-s4jlr
+CLAIM task=108 worker=worker-7484d9c459-s4jlr token=1
+DONE task=108 worker=worker-7484d9c459-s4jlr
+CLAIM task=111 worker=worker-7484d9c459-s4jlr token=1
+DONE task=111 worker=worker-7484d9c459-s4jlr
+CLAIM task=114 worker=worker-7484d9c459-s4jlr token=1
+DONE task=114 worker=worker-7484d9c459-s4jlr
+CLAIM task=117 worker=worker-7484d9c459-s4jlr token=1
+DONE task=117 worker=worker-7484d9c459-s4jlr
+CLAIM task=120 worker=worker-7484d9c459-s4jlr token=1
+DONE task=120 worker=worker-7484d9c459-s4jlr
+CLAIM task=123 worker=worker-7484d9c459-s4jlr token=1
+DONE task=123 worker=worker-7484d9c459-s4jlr
+CLAIM task=126 worker=worker-7484d9c459-s4jlr token=1
+DONE task=126 worker=worker-7484d9c459-s4jlr
+CLAIM task=129 worker=worker-7484d9c459-s4jlr token=1
+DONE task=129 worker=worker-7484d9c459-s4jlr
+CLAIM task=131 worker=worker-7484d9c459-s4jlr token=1
+DONE task=131 worker=worker-7484d9c459-s4jlr
+CLAIM task=132 worker=worker-7484d9c459-s4jlr token=1
+DONE task=132 worker=worker-7484d9c459-s4jlr
+CLAIM task=133 worker=worker-7484d9c459-s4jlr token=1
+DONE task=133 worker=worker-7484d9c459-s4jlr
+CLAIM task=134 worker=worker-7484d9c459-s4jlr token=1
+DONE task=134 worker=worker-7484d9c459-s4jlr
+CLAIM task=135 worker=worker-7484d9c459-s4jlr token=1
+DONE task=135 worker=worker-7484d9c459-s4jlr
+CLAIM task=136 worker=worker-7484d9c459-s4jlr token=1
+DONE task=136 worker=worker-7484d9c459-s4jlr
+CLAIM task=137 worker=worker-7484d9c459-s4jlr token=1
+DONE task=137 worker=worker-7484d9c459-s4jlr
+STOP worker=worker-7484d9c459-s4jlr: SIGTERM отримано, поточну задачу завершено, вихід з кодом 0 через 0.10 с

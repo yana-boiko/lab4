@@ -1,0 +1,43 @@
+{
+ "label": "step8_return",
+ "rate": 32.55,
+ "pods": [
+  "worker-7484d9c459-gh4z9",
+  "worker-7484d9c459-r7zmm",
+  "worker-7484d9c459-s4jlr",
+  "worker-7484d9c459-tmbpt"
+ ],
+ "exit_codes": {
+  "worker-7484d9c459-gh4z9": [
+   0,
+   "Completed"
+  ],
+  "worker-7484d9c459-r7zmm": [
+   0,
+   "Completed"
+  ],
+  "worker-7484d9c459-s4jlr": [
+   0,
+   "Completed"
+  ],
+  "worker-7484d9c459-tmbpt": [
+   0,
+   "Completed"
+  ]
+ },
+ "stop_lines": {
+  "worker-7484d9c459-gh4z9": 1,
+  "worker-7484d9c459-r7zmm": 1,
+  "worker-7484d9c459-s4jlr": 1,
+  "worker-7484d9c459-tmbpt": 1
+ },
+ "returned": [
+  "128"
+ ],
+ "n": 1500,
+ "status": "done=1500",
+ "failed": 0,
+ "multi_results": 0,
+ "attempts_gt1": 1,
+ "attempts_gt1_ids": "128"
+}

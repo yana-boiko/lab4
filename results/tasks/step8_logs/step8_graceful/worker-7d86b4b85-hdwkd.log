@@ -1,0 +1,304 @@
+worker-7d86b4b85-hdwkd: старт, L=10 с, heartbeat кожні 3.33 с, T_poll=100 мс, FAIL_RATE=0.0, захоплення: skip_locked, ліміт на зупинку 25 с
+CLAIM task=6 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=6 worker=worker-7d86b4b85-hdwkd
+CLAIM task=10 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=10 worker=worker-7d86b4b85-hdwkd
+CLAIM task=14 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=14 worker=worker-7d86b4b85-hdwkd
+CLAIM task=18 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=18 worker=worker-7d86b4b85-hdwkd
+CLAIM task=22 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=22 worker=worker-7d86b4b85-hdwkd
+CLAIM task=27 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=27 worker=worker-7d86b4b85-hdwkd
+CLAIM task=32 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=32 worker=worker-7d86b4b85-hdwkd
+CLAIM task=35 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=35 worker=worker-7d86b4b85-hdwkd
+CLAIM task=39 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=39 worker=worker-7d86b4b85-hdwkd
+CLAIM task=43 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=43 worker=worker-7d86b4b85-hdwkd
+CLAIM task=48 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=48 worker=worker-7d86b4b85-hdwkd
+CLAIM task=49 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=49 worker=worker-7d86b4b85-hdwkd
+CLAIM task=55 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=55 worker=worker-7d86b4b85-hdwkd
+CLAIM task=59 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=59 worker=worker-7d86b4b85-hdwkd
+CLAIM task=65 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=65 worker=worker-7d86b4b85-hdwkd
+CLAIM task=69 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=69 worker=worker-7d86b4b85-hdwkd
+CLAIM task=70 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=70 worker=worker-7d86b4b85-hdwkd
+CLAIM task=75 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=75 worker=worker-7d86b4b85-hdwkd
+CLAIM task=79 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=79 worker=worker-7d86b4b85-hdwkd
+CLAIM task=84 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=84 worker=worker-7d86b4b85-hdwkd
+CLAIM task=87 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=87 worker=worker-7d86b4b85-hdwkd
+CLAIM task=92 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=92 worker=worker-7d86b4b85-hdwkd
+CLAIM task=94 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=94 worker=worker-7d86b4b85-hdwkd
+CLAIM task=99 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=99 worker=worker-7d86b4b85-hdwkd
+CLAIM task=104 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=104 worker=worker-7d86b4b85-hdwkd
+CLAIM task=109 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=109 worker=worker-7d86b4b85-hdwkd
+CLAIM task=113 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=113 worker=worker-7d86b4b85-hdwkd
+CLAIM task=114 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=114 worker=worker-7d86b4b85-hdwkd
+CLAIM task=120 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=120 worker=worker-7d86b4b85-hdwkd
+CLAIM task=125 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=125 worker=worker-7d86b4b85-hdwkd
+CLAIM task=128 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=128 worker=worker-7d86b4b85-hdwkd
+CLAIM task=131 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=131 worker=worker-7d86b4b85-hdwkd
+CLAIM task=136 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=136 worker=worker-7d86b4b85-hdwkd
+CLAIM task=140 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=140 worker=worker-7d86b4b85-hdwkd
+CLAIM task=145 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=145 worker=worker-7d86b4b85-hdwkd
+CLAIM task=149 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=149 worker=worker-7d86b4b85-hdwkd
+CLAIM task=152 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=152 worker=worker-7d86b4b85-hdwkd
+CLAIM task=157 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=157 worker=worker-7d86b4b85-hdwkd
+CLAIM task=162 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=162 worker=worker-7d86b4b85-hdwkd
+CLAIM task=165 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=165 worker=worker-7d86b4b85-hdwkd
+CLAIM task=169 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=169 worker=worker-7d86b4b85-hdwkd
+CLAIM task=173 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=173 worker=worker-7d86b4b85-hdwkd
+CLAIM task=177 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=177 worker=worker-7d86b4b85-hdwkd
+CLAIM task=181 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=181 worker=worker-7d86b4b85-hdwkd
+CLAIM task=185 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=185 worker=worker-7d86b4b85-hdwkd
+CLAIM task=191 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=191 worker=worker-7d86b4b85-hdwkd
+CLAIM task=201 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=201 worker=worker-7d86b4b85-hdwkd
+CLAIM task=210 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=210 worker=worker-7d86b4b85-hdwkd
+CLAIM task=211 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=211 worker=worker-7d86b4b85-hdwkd
+CLAIM task=215 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=215 worker=worker-7d86b4b85-hdwkd
+CLAIM task=218 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=218 worker=worker-7d86b4b85-hdwkd
+CLAIM task=220 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=220 worker=worker-7d86b4b85-hdwkd
+CLAIM task=223 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=223 worker=worker-7d86b4b85-hdwkd
+CLAIM task=228 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=228 worker=worker-7d86b4b85-hdwkd
+CLAIM task=229 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=229 worker=worker-7d86b4b85-hdwkd
+CLAIM task=234 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=234 worker=worker-7d86b4b85-hdwkd
+CLAIM task=239 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=239 worker=worker-7d86b4b85-hdwkd
+CLAIM task=246 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=246 worker=worker-7d86b4b85-hdwkd
+CLAIM task=251 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=251 worker=worker-7d86b4b85-hdwkd
+CLAIM task=253 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=253 worker=worker-7d86b4b85-hdwkd
+CLAIM task=255 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=255 worker=worker-7d86b4b85-hdwkd
+CLAIM task=257 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=257 worker=worker-7d86b4b85-hdwkd
+CLAIM task=258 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=258 worker=worker-7d86b4b85-hdwkd
+CLAIM task=265 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=265 worker=worker-7d86b4b85-hdwkd
+CLAIM task=267 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=267 worker=worker-7d86b4b85-hdwkd
+CLAIM task=272 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=272 worker=worker-7d86b4b85-hdwkd
+CLAIM task=277 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=277 worker=worker-7d86b4b85-hdwkd
+CLAIM task=278 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=278 worker=worker-7d86b4b85-hdwkd
+CLAIM task=279 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=279 worker=worker-7d86b4b85-hdwkd
+CLAIM task=282 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=282 worker=worker-7d86b4b85-hdwkd
+CLAIM task=288 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=288 worker=worker-7d86b4b85-hdwkd
+CLAIM task=289 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=289 worker=worker-7d86b4b85-hdwkd
+CLAIM task=294 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=294 worker=worker-7d86b4b85-hdwkd
+CLAIM task=302 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=302 worker=worker-7d86b4b85-hdwkd
+CLAIM task=304 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=304 worker=worker-7d86b4b85-hdwkd
+CLAIM task=305 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=305 worker=worker-7d86b4b85-hdwkd
+CLAIM task=308 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=308 worker=worker-7d86b4b85-hdwkd
+CLAIM task=309 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=309 worker=worker-7d86b4b85-hdwkd
+CLAIM task=316 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=316 worker=worker-7d86b4b85-hdwkd
+CLAIM task=320 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=320 worker=worker-7d86b4b85-hdwkd
+CLAIM task=322 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=322 worker=worker-7d86b4b85-hdwkd
+CLAIM task=334 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=334 worker=worker-7d86b4b85-hdwkd
+CLAIM task=335 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=335 worker=worker-7d86b4b85-hdwkd
+CLAIM task=336 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=336 worker=worker-7d86b4b85-hdwkd
+CLAIM task=340 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=340 worker=worker-7d86b4b85-hdwkd
+CLAIM task=342 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=342 worker=worker-7d86b4b85-hdwkd
+CLAIM task=347 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=347 worker=worker-7d86b4b85-hdwkd
+CLAIM task=348 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=348 worker=worker-7d86b4b85-hdwkd
+CLAIM task=350 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=350 worker=worker-7d86b4b85-hdwkd
+CLAIM task=352 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=352 worker=worker-7d86b4b85-hdwkd
+CLAIM task=354 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=354 worker=worker-7d86b4b85-hdwkd
+CLAIM task=358 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=358 worker=worker-7d86b4b85-hdwkd
+CLAIM task=359 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=359 worker=worker-7d86b4b85-hdwkd
+CLAIM task=365 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=365 worker=worker-7d86b4b85-hdwkd
+CLAIM task=377 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=377 worker=worker-7d86b4b85-hdwkd
+CLAIM task=378 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=378 worker=worker-7d86b4b85-hdwkd
+CLAIM task=387 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=387 worker=worker-7d86b4b85-hdwkd
+CLAIM task=395 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=395 worker=worker-7d86b4b85-hdwkd
+CLAIM task=398 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=398 worker=worker-7d86b4b85-hdwkd
+CLAIM task=402 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=402 worker=worker-7d86b4b85-hdwkd
+CLAIM task=406 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=406 worker=worker-7d86b4b85-hdwkd
+CLAIM task=411 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=411 worker=worker-7d86b4b85-hdwkd
+CLAIM task=415 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=415 worker=worker-7d86b4b85-hdwkd
+CLAIM task=417 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=417 worker=worker-7d86b4b85-hdwkd
+CLAIM task=422 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=422 worker=worker-7d86b4b85-hdwkd
+CLAIM task=430 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=430 worker=worker-7d86b4b85-hdwkd
+CLAIM task=431 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=431 worker=worker-7d86b4b85-hdwkd
+CLAIM task=433 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=433 worker=worker-7d86b4b85-hdwkd
+CLAIM task=434 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=434 worker=worker-7d86b4b85-hdwkd
+CLAIM task=437 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=437 worker=worker-7d86b4b85-hdwkd
+CLAIM task=442 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=442 worker=worker-7d86b4b85-hdwkd
+CLAIM task=446 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=446 worker=worker-7d86b4b85-hdwkd
+CLAIM task=453 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=453 worker=worker-7d86b4b85-hdwkd
+CLAIM task=454 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=454 worker=worker-7d86b4b85-hdwkd
+CLAIM task=456 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=456 worker=worker-7d86b4b85-hdwkd
+CLAIM task=457 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=457 worker=worker-7d86b4b85-hdwkd
+CLAIM task=460 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=460 worker=worker-7d86b4b85-hdwkd
+CLAIM task=462 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=462 worker=worker-7d86b4b85-hdwkd
+CLAIM task=469 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=469 worker=worker-7d86b4b85-hdwkd
+CLAIM task=470 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=470 worker=worker-7d86b4b85-hdwkd
+CLAIM task=471 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=471 worker=worker-7d86b4b85-hdwkd
+CLAIM task=475 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=475 worker=worker-7d86b4b85-hdwkd
+CLAIM task=478 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=478 worker=worker-7d86b4b85-hdwkd
+CLAIM task=480 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=480 worker=worker-7d86b4b85-hdwkd
+CLAIM task=495 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=495 worker=worker-7d86b4b85-hdwkd
+CLAIM task=496 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=496 worker=worker-7d86b4b85-hdwkd
+CLAIM task=505 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=505 worker=worker-7d86b4b85-hdwkd
+CLAIM task=509 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=509 worker=worker-7d86b4b85-hdwkd
+CLAIM task=514 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=514 worker=worker-7d86b4b85-hdwkd
+CLAIM task=515 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=515 worker=worker-7d86b4b85-hdwkd
+CLAIM task=518 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=518 worker=worker-7d86b4b85-hdwkd
+CLAIM task=519 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=519 worker=worker-7d86b4b85-hdwkd
+CLAIM task=522 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=522 worker=worker-7d86b4b85-hdwkd
+CLAIM task=524 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=524 worker=worker-7d86b4b85-hdwkd
+CLAIM task=527 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=527 worker=worker-7d86b4b85-hdwkd
+CLAIM task=529 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=529 worker=worker-7d86b4b85-hdwkd
+CLAIM task=538 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=538 worker=worker-7d86b4b85-hdwkd
+CLAIM task=543 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=543 worker=worker-7d86b4b85-hdwkd
+CLAIM task=544 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=544 worker=worker-7d86b4b85-hdwkd
+CLAIM task=547 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=547 worker=worker-7d86b4b85-hdwkd
+CLAIM task=554 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=554 worker=worker-7d86b4b85-hdwkd
+CLAIM task=562 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=562 worker=worker-7d86b4b85-hdwkd
+CLAIM task=574 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=574 worker=worker-7d86b4b85-hdwkd
+CLAIM task=578 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=578 worker=worker-7d86b4b85-hdwkd
+CLAIM task=586 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=586 worker=worker-7d86b4b85-hdwkd
+CLAIM task=588 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=588 worker=worker-7d86b4b85-hdwkd
+CLAIM task=589 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=589 worker=worker-7d86b4b85-hdwkd
+CLAIM task=593 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=593 worker=worker-7d86b4b85-hdwkd
+CLAIM task=596 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=596 worker=worker-7d86b4b85-hdwkd
+CLAIM task=599 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=599 worker=worker-7d86b4b85-hdwkd
+CLAIM task=602 worker=worker-7d86b4b85-hdwkd token=1
+DONE task=602 worker=worker-7d86b4b85-hdwkd
+STOP worker=worker-7d86b4b85-hdwkd: SIGTERM отримано, поточну задачу завершено, вихід з кодом 0 через 0.03 с

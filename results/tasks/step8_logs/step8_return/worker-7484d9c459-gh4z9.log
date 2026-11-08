@@ -1,0 +1,68 @@
+worker-7484d9c459-gh4z9: старт, L=10 с, heartbeat кожні 3.33 с, T_poll=100 мс, FAIL_RATE=0.0, захоплення: skip_locked, ліміт на зупинку 0.02 с
+worker-7484d9c459-gh4z9: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-gh4z9: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+CLAIM task=3 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=3 worker=worker-7484d9c459-gh4z9
+CLAIM task=9 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=9 worker=worker-7484d9c459-gh4z9
+CLAIM task=12 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=12 worker=worker-7484d9c459-gh4z9
+CLAIM task=16 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=16 worker=worker-7484d9c459-gh4z9
+CLAIM task=20 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=20 worker=worker-7484d9c459-gh4z9
+CLAIM task=24 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=24 worker=worker-7484d9c459-gh4z9
+CLAIM task=28 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=28 worker=worker-7484d9c459-gh4z9
+CLAIM task=33 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=33 worker=worker-7484d9c459-gh4z9
+CLAIM task=37 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=37 worker=worker-7484d9c459-gh4z9
+CLAIM task=41 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=41 worker=worker-7484d9c459-gh4z9
+CLAIM task=46 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=46 worker=worker-7484d9c459-gh4z9
+CLAIM task=50 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=50 worker=worker-7484d9c459-gh4z9
+CLAIM task=54 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=54 worker=worker-7484d9c459-gh4z9
+CLAIM task=60 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=60 worker=worker-7484d9c459-gh4z9
+CLAIM task=63 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=63 worker=worker-7484d9c459-gh4z9
+CLAIM task=67 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=67 worker=worker-7484d9c459-gh4z9
+CLAIM task=71 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=71 worker=worker-7484d9c459-gh4z9
+CLAIM task=76 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=76 worker=worker-7484d9c459-gh4z9
+CLAIM task=82 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=82 worker=worker-7484d9c459-gh4z9
+CLAIM task=86 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=86 worker=worker-7484d9c459-gh4z9
+CLAIM task=90 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=90 worker=worker-7484d9c459-gh4z9
+CLAIM task=93 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=93 worker=worker-7484d9c459-gh4z9
+CLAIM task=97 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=97 worker=worker-7484d9c459-gh4z9
+CLAIM task=101 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=101 worker=worker-7484d9c459-gh4z9
+CLAIM task=105 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=105 worker=worker-7484d9c459-gh4z9
+CLAIM task=109 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=109 worker=worker-7484d9c459-gh4z9
+CLAIM task=112 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=112 worker=worker-7484d9c459-gh4z9
+CLAIM task=115 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=115 worker=worker-7484d9c459-gh4z9
+CLAIM task=119 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=119 worker=worker-7484d9c459-gh4z9
+CLAIM task=122 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=122 worker=worker-7484d9c459-gh4z9
+CLAIM task=125 worker=worker-7484d9c459-gh4z9 token=1
+DONE task=125 worker=worker-7484d9c459-gh4z9
+CLAIM task=128 worker=worker-7484d9c459-gh4z9 token=1
+RETURNED task=128 worker=worker-7484d9c459-gh4z9 token=1
+STOP worker=worker-7484d9c459-gh4z9: ліміт 0.02 с на зупинку спливло, вихід з кодом 0

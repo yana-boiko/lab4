@@ -1,0 +1,41 @@
+{
+ "label": "step8_graceful",
+ "rate": 32.55,
+ "pods": [
+  "worker-7d86b4b85-6rw72",
+  "worker-7d86b4b85-8rqj9",
+  "worker-7d86b4b85-hdwkd",
+  "worker-7d86b4b85-w4f65"
+ ],
+ "exit_codes": {
+  "worker-7d86b4b85-6rw72": [
+   0,
+   "Completed"
+  ],
+  "worker-7d86b4b85-8rqj9": [
+   0,
+   "Completed"
+  ],
+  "worker-7d86b4b85-hdwkd": [
+   0,
+   "Completed"
+  ],
+  "worker-7d86b4b85-w4f65": [
+   0,
+   "Completed"
+  ]
+ },
+ "stop_lines": {
+  "worker-7d86b4b85-6rw72": 1,
+  "worker-7d86b4b85-8rqj9": 1,
+  "worker-7d86b4b85-hdwkd": 1,
+  "worker-7d86b4b85-w4f65": 1
+ },
+ "returned": [],
+ "n": 1952,
+ "status": "done=1952",
+ "failed": 0,
+ "multi_results": 0,
+ "attempts_gt1": 0,
+ "attempts_gt1_ids": "-"
+}

@@ -2,6 +2,8 @@
 import math
 import os
 import random
+import signal
+import sys
 import threading
 import time
 import urllib.request
@@ -19,6 +21,7 @@ POLL = float(os.environ["POLL_INTERVAL_MS"]) / 1000
 FAIL_RATE = float(os.environ.get("FAIL_RATE", "0"))
 WORKER_ID = os.environ["WORKER_ID"]
 CLAIM_MODE = os.environ.get("CLAIM_MODE", "skip_locked")
+STOP_GRACE = float(os.environ.get("STOP_GRACE_SECONDS", "25"))
 HEARTBEAT = LEASE / 3
 
 S = 256
@@ -27,6 +30,7 @@ Q_LO, Q_HI = 0.02, 0.98
 TASKS = Counter("worker_tasks_total", "Задачі за результатом", ["result"])
 CLAIMS = Counter("worker_claims_total", "Спроби захоплення за результатом", ["result"])
 HEARTBEATS = Counter("worker_heartbeats_total", "Heartbeat за результатом", ["result"])
+RETURNED = Counter("worker_tasks_returned_total", "Задачі, повернуті воркером у чергу під час зупинки")
 STEP = Histogram("worker_task_duration_seconds", "Тривалість кроку задачі, с", ["step"],
                  buckets=[0.001, 0.002, 0.004, 0.008, 0.016, 0.032, 0.064, 0.128, 0.256, 0.512, 1.024, 2.048])
 IN_FLIGHT = Gauge("worker_tasks_in_flight", "Задач в обробці")
@@ -53,9 +57,42 @@ RETURNING id, record_id, seed, token
 """
 HEARTBEAT_SQL = ("UPDATE tasks SET lease_until = now() + make_interval(secs => %s) "
                  "WHERE id = %s AND token = %s")
+RETURN_SQL = ("UPDATE tasks SET status = 'queued', worker_id = NULL "
+              "WHERE id = %s AND token = %s AND status = 'running'")
 
 current = None
 cur_lock = threading.Lock()
+stopping = threading.Event()
+t_term = None
+
+
+def return_current():
+    with cur_lock:
+        snap = current
+    if snap is None:
+        return          # задачі немає: головний потік вийде сам
+    n = 0
+    try:
+        with psycopg.connect(**DB, autocommit=True) as c:
+            n = c.execute(RETURN_SQL, (snap[0], snap[1])).rowcount
+    except Exception as e:
+        print(f"{WORKER_ID}: не вдалося повернути задачу {snap[0]}: {e}", flush=True)
+    if n:
+        RETURNED.inc()
+        print(f"RETURNED task={snap[0]} worker={WORKER_ID} token={snap[1]}", flush=True)
+    print(f"STOP worker={WORKER_ID}: ліміт {STOP_GRACE:g} с на зупинку спливло, вихід з кодом 0", flush=True)
+    os._exit(0)
+
+
+def on_sigterm(signum, frame):
+    global t_term
+    if stopping.is_set():
+        return
+    t_term = time.time()
+    stopping.set()
+    timer = threading.Timer(STOP_GRACE, return_current)
+    timer.daemon = True
+    timer.start()
 
 
 def heartbeat_loop():
@@ -121,15 +158,17 @@ def process(seed):
             "mean": round(mean, 4), "std": round(std, 4)}
 
 
+signal.signal(signal.SIGTERM, on_sigterm)
 start_http_server(9100)
 threading.Thread(target=heartbeat_loop, daemon=True).start()
 print(f"{WORKER_ID}: старт, L={LEASE:g} с, heartbeat кожні {HEARTBEAT:.2f} с, "
-      f"T_poll={POLL * 1000:g} мс, FAIL_RATE={FAIL_RATE}, захоплення: {CLAIM_MODE}", flush=True)
+      f"T_poll={POLL * 1000:g} мс, FAIL_RATE={FAIL_RATE}, захоплення: {CLAIM_MODE}, "
+      f"ліміт на зупинку {STOP_GRACE:g} с", flush=True)
 
-while True:
+while not stopping.is_set():
     try:
         with psycopg.connect(**DB, autocommit=True, row_factory=dict_row) as conn:
-            while True:
+            while not stopping.is_set():
                 t = time.perf_counter()
                 if CLAIM_MODE == "naive":
                     row = conn.execute(NAIVE_SELECT).fetchone()
@@ -142,7 +181,7 @@ while True:
                 STEP.labels("claim").observe(time.perf_counter() - t)
                 if task is None:
                     CLAIMS.labels("empty").inc()
-                    time.sleep(POLL)
+                    stopping.wait(POLL)
                     continue
                 CLAIMS.labels("task").inc()
                 print(f"CLAIM task={task['id']} worker={WORKER_ID} token={task['token']}", flush=True)
@@ -192,4 +231,9 @@ while True:
                         current = None
     except psycopg.OperationalError as e:
         print(f"{WORKER_ID}: втрачено зʼєднання з базою ({e}), перепідключення", flush=True)
-        time.sleep(1)
+        stopping.wait(1)
+
+dt = time.time() - t_term if t_term else 0.0
+print(f"STOP worker={WORKER_ID}: SIGTERM отримано, поточну задачу завершено, вихід з кодом 0 "
+      f"через {dt:.2f} с", flush=True)
+sys.exit(0)

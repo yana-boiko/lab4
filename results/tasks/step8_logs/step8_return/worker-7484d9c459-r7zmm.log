@@ -1,0 +1,63 @@
+worker-7484d9c459-r7zmm: старт, L=10 с, heartbeat кожні 3.33 с, T_poll=100 мс, FAIL_RATE=0.0, захоплення: skip_locked, ліміт на зупинку 0.02 с
+worker-7484d9c459-r7zmm: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-r7zmm: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-r7zmm: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-r7zmm: втрачено зʼєднання з базою ([Errno -3] Temporary failure in name resolution), перепідключення
+worker-7484d9c459-r7zmm: втрачено зʼєднання з базою ([Errno -5] No address associated with hostname), перепідключення
+CLAIM task=2 worker=worker-7484d9c459-r7zmm token=1
+DONE task=2 worker=worker-7484d9c459-r7zmm
+CLAIM task=6 worker=worker-7484d9c459-r7zmm token=1
+DONE task=6 worker=worker-7484d9c459-r7zmm
+CLAIM task=10 worker=worker-7484d9c459-r7zmm token=1
+DONE task=10 worker=worker-7484d9c459-r7zmm
+CLAIM task=14 worker=worker-7484d9c459-r7zmm token=1
+DONE task=14 worker=worker-7484d9c459-r7zmm
+CLAIM task=18 worker=worker-7484d9c459-r7zmm token=1
+DONE task=18 worker=worker-7484d9c459-r7zmm
+CLAIM task=22 worker=worker-7484d9c459-r7zmm token=1
+DONE task=22 worker=worker-7484d9c459-r7zmm
+CLAIM task=26 worker=worker-7484d9c459-r7zmm token=1
+DONE task=26 worker=worker-7484d9c459-r7zmm
+CLAIM task=32 worker=worker-7484d9c459-r7zmm token=1
+DONE task=32 worker=worker-7484d9c459-r7zmm
+CLAIM task=35 worker=worker-7484d9c459-r7zmm token=1
+DONE task=35 worker=worker-7484d9c459-r7zmm
+CLAIM task=39 worker=worker-7484d9c459-r7zmm token=1
+DONE task=39 worker=worker-7484d9c459-r7zmm
+CLAIM task=42 worker=worker-7484d9c459-r7zmm token=1
+DONE task=42 worker=worker-7484d9c459-r7zmm
+CLAIM task=45 worker=worker-7484d9c459-r7zmm token=1
+DONE task=45 worker=worker-7484d9c459-r7zmm
+CLAIM task=49 worker=worker-7484d9c459-r7zmm token=1
+DONE task=49 worker=worker-7484d9c459-r7zmm
+CLAIM task=53 worker=worker-7484d9c459-r7zmm token=1
+DONE task=53 worker=worker-7484d9c459-r7zmm
+CLAIM task=57 worker=worker-7484d9c459-r7zmm token=1
+DONE task=57 worker=worker-7484d9c459-r7zmm
+CLAIM task=61 worker=worker-7484d9c459-r7zmm token=1
+DONE task=61 worker=worker-7484d9c459-r7zmm
+CLAIM task=65 worker=worker-7484d9c459-r7zmm token=1
+DONE task=65 worker=worker-7484d9c459-r7zmm
+CLAIM task=69 worker=worker-7484d9c459-r7zmm token=1
+DONE task=69 worker=worker-7484d9c459-r7zmm
+CLAIM task=73 worker=worker-7484d9c459-r7zmm token=1
+DONE task=73 worker=worker-7484d9c459-r7zmm
+CLAIM task=77 worker=worker-7484d9c459-r7zmm token=1
+DONE task=77 worker=worker-7484d9c459-r7zmm
+CLAIM task=81 worker=worker-7484d9c459-r7zmm token=1
+DONE task=81 worker=worker-7484d9c459-r7zmm
+CLAIM task=84 worker=worker-7484d9c459-r7zmm token=1
+DONE task=84 worker=worker-7484d9c459-r7zmm
+CLAIM task=88 worker=worker-7484d9c459-r7zmm token=1
+DONE task=88 worker=worker-7484d9c459-r7zmm
+CLAIM task=91 worker=worker-7484d9c459-r7zmm token=1
+DONE task=91 worker=worker-7484d9c459-r7zmm
+CLAIM task=96 worker=worker-7484d9c459-r7zmm token=1
+DONE task=96 worker=worker-7484d9c459-r7zmm
+CLAIM task=99 worker=worker-7484d9c459-r7zmm token=1
+DONE task=99 worker=worker-7484d9c459-r7zmm
+CLAIM task=103 worker=worker-7484d9c459-r7zmm token=1
+DONE task=103 worker=worker-7484d9c459-r7zmm
+CLAIM task=107 worker=worker-7484d9c459-r7zmm token=1
+DONE task=107 worker=worker-7484d9c459-r7zmm
+STOP worker=worker-7484d9c459-r7zmm: SIGTERM отримано, поточну задачу завершено, вихід з кодом 0 через 0.09 с
