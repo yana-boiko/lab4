@@ -23,6 +23,7 @@ FAIL_RATE = float(os.environ.get("FAIL_RATE", "0"))
 WORKER_ID = os.environ["WORKER_ID"]
 CLAIM_MODE = os.environ.get("CLAIM_MODE", "skip_locked")
 STOP_GRACE = float(os.environ.get("STOP_GRACE_SECONDS", "25"))
+CANCEL_PASSES = int(os.environ.get("CANCEL_PASSES", "4"))
 HEARTBEAT = LEASE / 3
 
 S = 256
@@ -60,6 +61,9 @@ HEARTBEAT_SQL = ("UPDATE tasks SET lease_until = now() + make_interval(secs => %
                  "WHERE id = %s AND token = %s")
 RETURN_SQL = ("UPDATE tasks SET status = 'queued', worker_id = NULL "
               "WHERE id = %s AND token = %s AND status = 'running'")
+CHECK_SQL = "SELECT cancel_requested FROM tasks WHERE id = %s AND token = %s"
+CANCEL_SQL = ("UPDATE tasks SET status = 'cancelled', finished_at = clock_timestamp() "
+              "WHERE id = %s AND token = %s AND status = 'running'")
 
 current = None
 cur_lock = threading.Lock()
@@ -67,11 +71,15 @@ stopping = threading.Event()
 t_term = None
 
 
+class Cancelled(Exception):
+    pass
+
+
 def return_current():
     with cur_lock:
         snap = current
     if snap is None:
-        return          # задачі немає: головний потік вийде сам
+        return
     n = 0
     try:
         with psycopg.connect(**DB, autocommit=True) as c:
@@ -122,16 +130,20 @@ def heartbeat_loop():
                       f"(задача вже не належить цьому воркеру)", flush=True)
 
 
-def process(seed):
+def process(seed, check):
     n = S * S
+    k = CANCEL_PASSES
+    bounds = [n * i // k for i in range(k + 1)]
     x = seed
     pixels = []
     hist = [0] * 4096
-    for _ in range(n):
-        x = (1103515245 * x + 12345) & 0x7FFFFFFF
-        p = x >> 19
-        pixels.append(p)
-        hist[p] += 1
+    for b in range(k):
+        for _ in range(bounds[b], bounds[b + 1]):
+            x = (1103515245 * x + 12345) & 0x7FFFFFFF
+            p = x >> 19
+            pixels.append(p)
+            hist[p] += 1
+        check()
 
     lo = hi = None
     cum = 0
@@ -142,16 +154,19 @@ def process(seed):
         if cum >= Q_HI * n:
             hi = v
             break
+    check()
 
-    span = (hi - lo) or 1
+    span = (hi - lo) or 1                 
     removed = total = total2 = 0
-    for p in pixels:
-        if p < lo or p > hi:
-            removed += 1
-        else:
-            q = int(4095 * (p - lo) / span + 0.5)
-            total += q
-            total2 += q * q
+    for b in range(k):
+        for p in pixels[bounds[b]:bounds[b + 1]]:
+            if p < lo or p > hi:
+                removed += 1
+            else:
+                q = int(4095 * (p - lo) / span + 0.5)
+                total += q
+                total2 += q * q
+        check()
     kept = n - removed
     mean = total / kept
     std = math.sqrt(max(total2 / kept - mean * mean, 0))
@@ -159,12 +174,20 @@ def process(seed):
             "mean": round(mean, 4), "std": round(std, 4)}
 
 
+def make_check(conn, task):
+    def check():
+        row = conn.execute(CHECK_SQL, (task["id"], task["token"])).fetchone()
+        if row and row["cancel_requested"]:
+            raise Cancelled()
+    return check
+
+
 signal.signal(signal.SIGTERM, on_sigterm)
 start_http_server(9100)
 threading.Thread(target=heartbeat_loop, daemon=True).start()
 print(f"{WORKER_ID}: старт, L={LEASE:g} с, heartbeat кожні {HEARTBEAT:.2f} с, "
       f"T_poll={POLL * 1000:g} мс, FAIL_RATE={FAIL_RATE}, захоплення: {CLAIM_MODE}, "
-      f"ліміт на зупинку {STOP_GRACE:g} с", flush=True)
+      f"ліміт на зупинку {STOP_GRACE:g} с, проходів скасування {CANCEL_PASSES}", flush=True)
 
 while not stopping.is_set():
     try:
@@ -196,7 +219,7 @@ while not stopping.is_set():
                     STEP.labels("fetch").observe(time.perf_counter() - t)
 
                     t = time.perf_counter()
-                    result = process(task["seed"])
+                    result = process(task["seed"], make_check(conn, task))
                     STEP.labels("process").observe(time.perf_counter() - t)
 
                     if random.random() < FAIL_RATE:
@@ -223,6 +246,10 @@ while not stopping.is_set():
                               f"оновлено 0 рядків (задача вже не належить цьому воркеру)", flush=True)
                 except psycopg.OperationalError:
                     raise
+                except Cancelled:
+                    conn.execute(CANCEL_SQL, (task["id"], task["token"]))
+                    TASKS.labels("cancelled").inc()
+                    print(f"CANCELLED task={task['id']} worker={WORKER_ID}", flush=True)
                 except Exception as e:
                     TASKS.labels("failed").inc()
                     print(f"{WORKER_ID}: задача {task['id']} помилка: {e}", flush=True)

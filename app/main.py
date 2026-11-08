@@ -57,9 +57,10 @@ def update_task_gauges():
 
 REAP_SQL = """
 UPDATE tasks
-SET status = CASE WHEN attempts >= max_attempts THEN 'failed' ELSE 'queued' END,
+SET status = CASE WHEN cancel_requested THEN 'cancelled'
+                  WHEN attempts >= max_attempts THEN 'failed' ELSE 'queued' END,
     worker_id = NULL,
-    finished_at = CASE WHEN attempts >= max_attempts THEN now() ELSE finished_at END
+    finished_at = CASE WHEN cancel_requested OR attempts >= max_attempts THEN now() ELSE finished_at END
 WHERE status = 'running' AND lease_until < now()
 RETURNING id, status, attempts
 """
@@ -273,7 +274,8 @@ def healthz():
         return JSONResponse(status_code=503, content={"status": "unavailable", "db": "down"})
 
 TASK_COLUMNS = ("id, record_id, status, seed, attempts, max_attempts, token, "
-                "lease_until, worker_id, created_at, started_at, finished_at")
+                "lease_until, worker_id, created_at, started_at, finished_at, "
+                "cancel_requested, cancel_requested_at")
 
 
 class TaskOut(BaseModel):
@@ -289,6 +291,8 @@ class TaskOut(BaseModel):
     created_at: datetime
     started_at: datetime | None
     finished_at: datetime | None
+    cancel_requested: bool
+    cancel_requested_at: datetime | None
 
 
 class TaskDetail(TaskOut):
@@ -330,7 +334,7 @@ def get_task(task_id: ItemId):
 def list_tasks(
     limit: Annotated[int, Query(ge=1, le=MAX_LIMIT)] = DEFAULT_LIMIT,
     offset: Annotated[int, Query(ge=0)] = 0,
-    status: Annotated[Literal["queued", "running", "done", "failed"] | None, Query()] = None,
+    status: Annotated[Literal["queued", "running", "done", "failed", "cancelled"] | None, Query()] = None,
 ):
     where, params = "", {"limit": limit, "offset": offset}
     if status is not None:
@@ -343,3 +347,30 @@ def list_tasks(
             params,
         ).fetchall()
     return {"items": items, "total": total, "limit": limit, "offset": offset}
+
+CANCEL_SQL = f"""
+UPDATE tasks SET
+    status = CASE WHEN status = 'queued' THEN 'cancelled' ELSE status END,
+    cancel_requested = (status = 'running'),
+    cancel_requested_at = clock_timestamp(),
+    finished_at = CASE WHEN status = 'queued' THEN clock_timestamp() ELSE finished_at END
+WHERE id = %s AND status IN ('queued', 'running')
+RETURNING {TASK_COLUMNS}
+"""
+
+
+@app.delete("/tasks/{task_id}", response_model=TaskOut)
+def cancel_task(task_id: ItemId, response: Response):
+    with pool.connection() as conn:
+        row = conn.execute(CANCEL_SQL, (task_id,)).fetchone()
+        if row is None:
+            row = conn.execute(f"SELECT {TASK_COLUMNS} FROM tasks WHERE id = %s", (task_id,)).fetchone()
+            if row is None:
+                return JSONResponse(status_code=404, content={"detail": f"task {task_id} not found"})
+            if row["status"] == "cancelled":
+                return row
+            return JSONResponse(status_code=409,
+                                content={"detail": f"task {task_id} is already {row['status']}"})
+    if row["status"] == "running":
+        response.status_code = 202
+    return row
