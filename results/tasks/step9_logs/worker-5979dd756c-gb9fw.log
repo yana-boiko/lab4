@@ -1,0 +1,3 @@
+unable to retrieve container logs for containerd://2a397fe379db1f68e4f2071eb27fbc1b0b89f9c2132b851992634909adea28d5
+worker-5979dd756c-gb9fw: старт, L=10 с, heartbeat кожні 3.33 с, T_poll=100 мс, FAIL_RATE=0.15, захоплення: skip_locked, ліміт на зупинку 25 с
+CLAIM task=84 worker=worker-5979dd756c-gb9fw token=3

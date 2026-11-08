@@ -1,0 +1,13 @@
+worker-5979dd756c-wgfjh: старт, L=10 с, heartbeat кожні 3.33 с, T_poll=100 мс, FAIL_RATE=0.15, захоплення: skip_locked, ліміт на зупинку 25 с
+CLAIM task=108 worker=worker-5979dd756c-wgfjh token=1
+DONE task=108 worker=worker-5979dd756c-wgfjh
+CLAIM task=109 worker=worker-5979dd756c-wgfjh token=1
+DONE task=109 worker=worker-5979dd756c-wgfjh
+CLAIM task=111 worker=worker-5979dd756c-wgfjh token=1
+
+worker-5979dd756c-wgfjh: старт, L=10 с, heartbeat кожні 3.33 с, T_poll=100 мс, FAIL_RATE=0.15, захоплення: skip_locked, ліміт на зупинку 25 с
+CLAIM task=122 worker=worker-5979dd756c-wgfjh token=1
+worker-5979dd756c-wgfjh: втрачено зʼєднання з базою (terminating connection due to administrator command), перепідключення
+CLAIM task=123 worker=worker-5979dd756c-wgfjh token=1
+DONE task=123 worker=worker-5979dd756c-wgfjh
+CLAIM task=124 worker=worker-5979dd756c-wgfjh token=1

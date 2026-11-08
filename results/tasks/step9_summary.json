@@ -1,0 +1,41 @@
+{
+ "rate": 32.55,
+ "n": 9765,
+ "status": "done=137, failed=1, queued=9627",
+ "restarts": {
+  "worker-5979dd756c-67hl9": 5,
+  "worker-5979dd756c-h55kv": 5,
+  "worker-5979dd756c-vjz82": 5,
+  "worker-5979dd756c-wgfjh": 5
+ },
+ "all_attempts": {
+  "0": 9626,
+  "1": 119,
+  "3": 3,
+  "2": 17
+ },
+ "resolved_attempts": {
+  "3": 3,
+  "1": 118,
+  "2": 17
+ },
+ "failed": 1,
+ "resolved": 138,
+ "multi_results": 0,
+ "X_run": 0.45666666666666667,
+ "X_last120": 0.15,
+ "f2": {
+  "task": 122,
+  "pod": "worker-5979dd756c-wgfjh",
+  "attempts_before": 1,
+  "token_before": 1,
+  "status": "done",
+  "attempts_after": 2,
+  "token_after": 2,
+  "finished_by": "worker-5979dd756c-67hl9",
+  "result_rows": 1,
+  "reconnect": [
+   "worker-5979dd756c-wgfjh: втрачено зʼєднання з базою (terminating connection due to administrator command), перепідключення"
+  ]
+ }
+}

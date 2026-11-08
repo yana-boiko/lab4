@@ -14,7 +14,8 @@ from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 
 DB = dict(host=os.environ["DB_HOST"], port=os.environ["DB_PORT"], dbname=os.environ["DB_NAME"],
-          user=os.environ["DB_USER"], password=os.environ["DB_PASSWORD"], connect_timeout=3)
+          user=os.environ["DB_USER"], password=os.environ["DB_PASSWORD"], connect_timeout=3,
+          application_name=os.environ["WORKER_ID"])
 WEB_URL = os.environ["WEB_URL"]
 LEASE = float(os.environ["LEASE_SECONDS"])
 POLL = float(os.environ["POLL_INTERVAL_MS"]) / 1000
@@ -105,7 +106,7 @@ def heartbeat_loop():
             continue
         try:
             if conn is None or conn.closed:
-                conn = psycopg.connect(**DB, autocommit=True)
+                conn = psycopg.connect(**{**DB, "application_name": WORKER_ID + "-hb"}, autocommit=True)
             n = conn.execute(HEARTBEAT_SQL, (LEASE, snap[0], snap[1])).rowcount
         except Exception as e:
             print(f"{WORKER_ID}: heartbeat помилка: {e}", flush=True)
