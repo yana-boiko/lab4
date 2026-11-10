@@ -1,76 +1,69 @@
-# Лабораторна робота 1 — CRUD-сервіс /lab-results
+# Лабораторна робота 4. Синхронізація пула воркерів
 
-Варіант 4: результат лабораторного аналізу. Сервіс на Python 3.12 + FastAPI, база PostgreSQL 16, балансувальник nginx, усе в Docker Compose.
+Черга задач у PostgreSQL і пул воркерів над сервісом `/lab-results`.
+Python 3.12 · FastAPI · PostgreSQL 16 · Kubernetes (kind) · Prometheus
 
-##  Звіти
+> **Варіант 4**: q_lo / q_hi = 0,02 / 0,98 · T_poll = 100 мс · L = 10 с · R = 4 · сценарій відмови Ф2 · додаткова вимога Д6
 
-| Лабораторна | Тема                                                 | Звіт                                                     |
-|-------------|------------------------------------------------------|----------------------------------------------------------|
-| **ЛР1** | CRUD-сервіс `/lab-results`                           | [**reports/lab1/report.md**](reports/lab1/report.md)     |
-| **ЛР2** | Метрики сервісу і межа масштабованості               | [**reports/lab2/report_2.md**](reports/lab2/report_2.md) |
-| **ЛР3** | Сервіс у Kubernetus з автомаштабуванням та без нього | [**reports/lab3/report_3.md**](reports/lab3/report_3.md) |
+## Звіт
 
----
+[**report/lab4/report.md**](reports/lab4/report.md): зображення лежать у `report/lab4/images/`.
 
 ## Запуск
 
-Потрібен Docker Desktop.
+Потрібні Docker Desktop, kind, kubectl і Helm.
 
 ```
 copy .env.example .env
-docker compose up -d --build
+scripts\deploy.ps1
 ```
 
+Скрипт створює кластер, збирає образи `web` і `worker`, завантажує їх у kind, застосовує маніфести й ставить моніторинг.
 
-Стенд піднімається на http://localhost:8000. Схема бази накочується автоматично з `db/schema.sql`.
+| Що | Адреса |
+|---|---|
+| Сервіс | http://localhost:8080 |
+| Prometheus | http://localhost:9090 |
 
-Перевірка:
-
-- http://localhost:8000/healthz — відповідь 200, якщо база доступна (503, якщо ні);
-- http://localhost:8000/docs — документація API;
-- `docker compose ps` — db і web у стані healthy.
-
-## Два вебінстанси
+Видалення кластера:
 
 ```
-docker compose up -d --scale web=2
-docker compose up -d --force-recreate --no-deps lb
+kind delete cluster --name lab3
 ```
 
-Друга команда перестворює балансувальник, щоб він отримав адреси обох інстансів.
+## Вимірювання
 
-## Навантаження
-
-```
-python loadgen\loadgen.py seed
-python loadgen\loadgen.py check
-python loadgen\loadgen.py series --instances 1
-```
-
-Сирі результати прогонів лежать у `results/raw`.
-
-## Зупинка
+Задачі створює `loadgen\taskload.py`:
 
 ```
-docker compose down     
-docker compose down -v 
+python loadgen\taskload.py --url http://localhost:8080 --rate 10 --count 20
 ```
+
+Скрипти кроків лежать у `scripts/`, результати зберігаються в `results/`. Команди кожного кроку наведено у звіті.
+
+| Крок | Тема | Скрипт |
+|---|---|---|
+| 4 | `FOR UPDATE SKIP LOCKED` | `step4_probe.py` |
+| 5 | lease, heartbeat, fencing token | `step5_probe.py` |
+| 6 | пропускна здатність X(W), σ, κ | `step6_run.py`, `step6_fit.py` |
+| 7 | закон Літтла для черги | `step7_run.py` |
+| 8 | коректна зупинка за SIGTERM | `step8_run.py` |
+| 9 | падіння воркерів і сценарій Ф2 | `step9_run.py` |
+| 10 | скасування задач (Д6) | `step10_run.py` |
 
 ## Структура
 
-- `app/` — код сервісу (`main.py`) і скрипт healthcheck (`healthcheck.py`), ЛР1–ЛР3
-- `db/` — схема таблиці (`schema.sql`), ЛР1
-- `lb/` — конфігурація балансувальника (`nginx.conf`), ЛР1–ЛР2
-- `loadgen/` — генератор навантаження: `loadgen.py` (ЛР1), `stepload.py` (ЛР2–ЛР3),
-- `prometheus/` — конфігурація збору метрик (`prometheus.yml`), ЛР2–ЛР3
-- `monitoring/` — values для Helm: `kps-values.yaml`, `postgres-exporter-values.yaml`, ЛР3
-- `k8s/` — маніфести сервісу в Kubernetes (`postgres.yaml`, `web.yaml`), ЛР3
-- `k8s-extra/` — `hpa.yaml`, `ingress.yaml`, `traefik-values.yaml`, ЛР3
-- `kind/` — конфігурація кластера (`kind-config.yaml`), ЛР3
-- `scripts/` — допоміжні скрипти:
-  - ЛР1: `cycle_check.py` (перевірка циклу CRUD)
-  - ЛР2: `usl_fit.py`, `p99_compare.py`, `m4_plot.py`, `plot_step.py`, `breakdown.py`, `recompute_achieved.py`, `sample_stats.ps1`
-  - ЛР3: `usl_fit_k8s.py`, `k8s_stats.py`, `pod_rps_chart.py`, `elasticity.py`, `deploy.ps1`
-- `results/` — результати вимірювань
-- `reports/` — звіти з зображеннями (`lab1/`, `lab2/`, `lab3/`)
-- `Dockerfile`, `.dockerignore`, `docker-compose.yml`, `.env.example`, `requirements.txt`
+```
+.
+├── app/            сервіс web
+├── worker/         воркер
+├── db/             схема бази
+├── k8s/            маніфести бази, web і воркера
+├── kind/           конфігурація кластера
+├── monitoring/     values для Helm
+├── loadgen/        генератор задач
+├── scripts/        розгортання і вимірювання
+├── results/        результати вимірювань
+├── reports/lab4/   звіт і зображення
+└── Dockerfile, requirements.txt, .env.example
+```
