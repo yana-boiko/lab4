@@ -7,7 +7,7 @@ Python 3.12 · FastAPI · PostgreSQL 16 · Kubernetes (kind) · Prometheus
 
 ## Звіт
 
-[**report/lab4/report.md**](reports/lab4/report.md): зображення лежать у `report/lab4/images/`.
+[**report/lab4/report.md**](report/lab4/report.md): зображення лежать у `report/lab4/images/`.
 
 ## Запуск
 
